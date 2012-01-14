@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+<div id="maincontent">
+{% block "content" %}
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.debug').hide();
+        $('.toggle').click(function(){
+            $(this).parent().children('.debug').toggle('fast');
+            $(this).parents('.movierow').css({"height": "auto"});
+            $(this).addClass('.visible');
+        });
+        $('.toggle.visible').click(function(){
+            $(this).parent().children('.debug').toggle('fast');
+            $(this).parents('.movierow').css({"height": "150px"});
+            $(this).removeClass('.visible');
+        });
+    });
+</script>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form method="get" action="/basic_search">
+    <input type="text" name="search_term" id="search_term" maxlength="100"  />
+    <input type="submit" value="Search for a movie" />
+</form>
+
+{% if flix.object_list %}
+    <div class="header">
+    Search Results:
+    </div>
+    {% block "results" %}
+        {% for flik in flix.object_list %}
+            <div id="movie_{{flik.id}}" class='movierow'>
+                <span class='boxart'>
+                    {% if flik.is_series %}
+                    <a href="/season_detail/?id={{flik.id}}&series={{flik.is_series}}">
+                    {% else %}
+                    <a href="/movie_detail/?id={{flik.id}}&series={{flik.is_series}}">
+                    {% endif %}
+                    <img src="{{flik.box_art}}" />
+                    </a>
+                </span>
+                <span class='title'>
+                    {% if flik.is_series %}
+                    <a href="/season_detail/?id={{flik.id}}&series={{flik.is_series}}">
+                    {% else %}
+                    <a href="/movie_detail/?id={{flik.id}}&series={{flik.is_series}}">
+                    {% endif %}
+                    {{ flik.title }}
+                    </a>
+                </span>
+                <span class='rating'>
+                    Rated {{flik.rating}} - Released {{flik.release_year}}
+                    <a href="#" class="toggle">API info</a>
+                    <div class="debug">
+                        {{flik.content}}
+                    </div>
+                </span>
+            </div>
+        {% endfor %}
+    {% endblock %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if flix.has_previous %}
+                <a href="?search_term={{search_term}}&page={{flix.previous_page_number}}">Previous</a>
+            {% endif %}
+            <span>
+                ...
+            </span>
+            <!--<span class="current">-->
+                <!--Page {{flix.number}} of {{flix.paginator.num_pages}}-->
+            <!--</span>-->
+            {% if flix.has_next %}
+                <a href="?search_term={{search_term}}&page={{flix.next_page_number}}">But wait, there's more!</a>
+            {% endif %}
+        </span>
+    </div>
+{% endif %}
+{% endblock %}
+</div>

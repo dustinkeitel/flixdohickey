@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+<div id="maincontent">
+{% block "content" %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<div class='movierow'>
+    <span class='boxart'>
+        <a href="{{movie.web_link}}">
+        <img src="{{movie.box_art}}" />
+        </a>
+    </span>
+    <span class='title'>
+    <a href="{{movie.web_link}}">{{movie.title}}</a>
+    </span>
+    <span class='rating'>
+    Rated {{movie.rating}} - Released {{movie.release_year}}
+    </span>
+    <span class='formats'>
+        Availability: {{movie.printable_formats}}
+    </span>
+</div>
+
+{% endblock %}

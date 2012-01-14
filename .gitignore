@@ -1,0 +1,23 @@
+############################################################
+# To see what's ignored:
+# git ls-files --others -i --exclude-standard
+############################################################
+
+# *.rtf
+
+*example.py*
+*dustin*
+*Dustin*
+*.key
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+develop-eggs
+.installed.cfg
+*.svn*
+
+pip-log.txt

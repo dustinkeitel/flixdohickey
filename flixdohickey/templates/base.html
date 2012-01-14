@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	    <title>{% block "title" %}FlixDohickey - Use The PyFlix API Like A Boss{% endblock %}</title>
+	    <link href='{{ STATIC_URL }}/static/css/flix.css' rel="stylesheet" type="text/css">
+    </head>
+    <body>
+    <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
+    <div id="maincontent">
+        {% block "content" %}
+        {% endblock %}
+    </div>
+        <div class="sidebar">
+        {% block "sidebar" %}
+            <ul>
+                <li><a href='/'>Home</a>
+                <li><a href="/basic_search/">Basic Netflix Search</a></li>
+                </br>
+                <li><a href="http://www.linkedin.com/pub/dustin-keitel/11/182/922" target='_blank'>Who built this?</a>
+            </ul>
+        {% endblock %}
+        </div>
+    </body>
+</html>
