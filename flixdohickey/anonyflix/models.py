@@ -6,7 +6,7 @@ import pprint
 ID_BASE = 'http://api.netflix.com/catalog/titles/'
 
 class Movie(models.Model):
-    def __init__(self, id):
+    def __init__(self, json):
         
         
         self.json = json
