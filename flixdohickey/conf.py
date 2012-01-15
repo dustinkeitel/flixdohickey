@@ -3,9 +3,13 @@
 """
 conf.py
 """
+import sys
+import os
+sys.path.append(os.path.abspath(os.curdir))
+
 from pyflix.Netflix import *
 import flixdohickey.secretkey as secretkey
-import os
+
 
 APP_NAME   = 'FlixDohickey'
 API_KEY    = 'g2wcttragfgx37fv54qxpjqw'

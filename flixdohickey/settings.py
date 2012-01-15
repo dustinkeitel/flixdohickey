@@ -88,7 +88,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-import flixdohickey.secretkey as secretkey
+import secretkey
 SECRET_KEY_FILE_PATH = os.path.join(PROJECT_BASE_DIR, 'flixdohickey.key')
 SECRET_KEY = secretkey.get_secret_key(SECRET_KEY_FILE_PATH)
 

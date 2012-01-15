@@ -8,6 +8,8 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from flixdohickey.conf import NFClient
 from flixdohickey.anonyflix.models import Movie
 
+import sys, os
+sys.path.append(os.path.abspath(os.curdir))
 from pyflix.Netflix import *
 
 ID_BASE = 'http://api.netflix.com/catalog/titles/'
