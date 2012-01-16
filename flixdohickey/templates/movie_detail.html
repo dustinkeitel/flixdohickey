@@ -4,40 +4,21 @@
 {% block "content" %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-{% block "results" %}
-    {% for flik in flix.object_list %}
-        <div class='movierow'>
-            <span class='boxart'>
-                <a href="{{movie.web_link}}">
-                <img src="{{movie.box_art}}" />
-                </a>
-            </span>
-            <span class='title'>
-            <a href="{{movie.web_link}}">{{movie.title}}</a>
-            </span>
-            <span class='rating'>
-            Rated {{movie.rating}} - Released {{movie.release_year}}
-            </span>
-            <span class='formats'>
-                Availability: {{movie.printable_formats}}
-            </span>
-        </div>
-
-{% endblock %}
-<div class="pagination">
-    <span class="step-links">
-        {% if flix.has_previous %}
-            <a href="?search_term={{search_term}}&page={{flix.previous_page_number}}">Previous</a>
-        {% endif %}
-        <span>
-            ...
-        </span>
-        <!--<span class="current">-->
-            <!--Page {{flix.number}} of {{flix.paginator.num_pages}}-->
-        <!--</span>-->
-        {% if flix.has_next %}
-            <a href="?search_term={{search_term}}&page={{flix.next_page_number}}">But wait, there's more!</a>
-        {% endif %}
+<div class='movierow'>
+    <span class='boxart'>
+        <a href="{{movie.web_link}}">
+        <img src="{{movie.box_art}}" />
+        </a>
+    </span>
+    <span class='title'>
+    <a href="{{movie.web_link}}">{{movie.title}}</a>
+    </span>
+    <span class='rating'>
+    Rated {{movie.rating}} - Released {{movie.release_year}}
+    </span>
+    <span class='formats'>
+        Availability: {{movie.printable_formats}}
     </span>
 </div>
+
 {% endblock %}
