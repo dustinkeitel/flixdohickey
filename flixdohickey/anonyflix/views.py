@@ -28,8 +28,7 @@ def search_by_string(request):
         term = request.GET['search_term']
         data = NFClient().catalog.searchTitles(term,start,end)
         for info in data:
-            #deep_data = NFClient().catalog.getTitle(info['id'])
-            movie = Movie(info)
+            movie = Movie(json=info)
             flix.append(movie)
     paginator = Paginator(flix, per_page)
     try:
@@ -47,19 +46,10 @@ def search_by_string(request):
 def movie_detail(request):
     if 'id' in request.GET:
         is_series = False
-        link_base = ID_BASE + 'movies/'
         if request.GET.get('series') == 'True':
             is_series = True
-            link_base = ID_BASE + 'series/'
             
-        base_data = NFClient().catalog.getTitle("%s%s" % (link_base, request.GET['id']))
-        print "movie_detail: %s" % base_data
-        movie = Movie(base_data['catalog_title'])
-        
-        disc = NetflixDisc(base_data['catalog_title'],NFClient())
-        if not is_series:
-            formats = disc.getInfo('formats')
-            movie.process_formats(formats)
+        movie = Movie(movie_id=request.GET['id'], series=is_series)
         
     return render_to_response('movie_detail.html', {'movie': movie})
     
@@ -69,20 +59,8 @@ def season_list(request):
     flix = []
     if 'id' in request.GET:
         series_id = request.GET['id']
-        link_base = ID_BASE + 'series/'
-        data = NFClient().catalog.getTitle("%s%s" % (link_base, series_id))
-        disc = NetflixDisc(data['catalog_title'],NFClient())
-        seas = disc.getInfo('seasons')
-        
-        seasons = seas.get('catalog_titles', {}).get('catalog_title', [])
-        for season in seasons:
-            movie = Movie(season)
-            season_disc = NetflixDisc(season,NFClient())
-            #eps = season_disc.getInfo('episodes')
-            season_discs = season_disc.getInfo('discs')['catalog_titles']['catalog_title']
-            #movie.process_episodes(eps)
-            movie.process_season_discs(season_discs)
-            flix.append(movie)
+        base_movie = Movie(movie_id=series_id, series=True)
+        flix = base_movie.seasons
     for flik in flix:
         print flik
             

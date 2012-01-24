@@ -1,16 +1,13 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
-"""
-
+#!/usr/bin/env python
+# encoding: utf-8
 from django.test import TestCase
+from django.utils import unittest
 
+from flixdohickey.anonyflix.models import Movie 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class MovieObjTest(TestCase):
+    def test_movie_synopsis(self):
+        movie = Movie(movie_id=60020928)
+        print movie.synopsis
+        
+        raise NotImplementedError, "BUILD ME"
