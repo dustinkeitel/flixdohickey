@@ -78,7 +78,10 @@ def season_list(request):
     return render_to_response('season_list.html', {'flix': movies})
 
 def season_detail(request):
-    """NOT DONE"""
+    """
+    NOT DONE
+    Display all the discs in a season. Each disc should link to a page like movie_detail
+    """
     per_page = 10
     
     flix = []
