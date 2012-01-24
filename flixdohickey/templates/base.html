@@ -8,6 +8,21 @@
     </head>
     <body>
     <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.debug').hide();
+            $('.toggle').click(function(){
+                $(this).parent().children('.debug').toggle('fast');
+                $(this).parents('.movierow').css({"height": "auto"});
+                $(this).addClass('.visible');
+            });
+            $('.toggle.visible').click(function(){
+                $(this).parent().children('.debug').toggle('fast');
+                $(this).parents('.movierow').css({"height": "150px"});
+                $(this).removeClass('.visible');
+            });
+        });
+    </script>
     <div id="maincontent">
         {% block "content" %}
         {% endblock %}

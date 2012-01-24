@@ -34,7 +34,7 @@ class Movie(models.Model):
         
     @property
     def is_series(self):
-        if 'series' in self.json['id']:
+        if 'series' in self.json.get('id'):
             return True
         return False
     

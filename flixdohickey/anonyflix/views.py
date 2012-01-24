@@ -48,25 +48,22 @@ def movie_detail(request):
     if 'id' in request.GET:
         is_series = False
         link_base = ID_BASE + 'movies/'
-        if request.GET['series'] == 'True':
+        if request.GET.get('series') == 'True':
             is_series = True
             link_base = ID_BASE + 'series/'
             
         base_data = NFClient().catalog.getTitle("%s%s" % (link_base, request.GET['id']))
+        print "movie_detail: %s" % base_data
         movie = Movie(base_data['catalog_title'])
         
         disc = NetflixDisc(base_data['catalog_title'],NFClient())
-        if is_series:
-            seas = disc.getInfo('seasons')
-            print seas
-            movie.process_seasons(seas)
-        else:
+        if not is_series:
             formats = disc.getInfo('formats')
             movie.process_formats(formats)
         
     return render_to_response('movie_detail.html', {'movie': movie})
     
-def season_detail(request):
+def season_list(request):
     per_page = 10
     
     flix = []
@@ -76,6 +73,7 @@ def season_detail(request):
         data = NFClient().catalog.getTitle("%s%s" % (link_base, series_id))
         disc = NetflixDisc(data['catalog_title'],NFClient())
         seas = disc.getInfo('seasons')
+        
         seasons = seas.get('catalog_titles', {}).get('catalog_title', [])
         for season in seasons:
             movie = Movie(season)
@@ -99,5 +97,43 @@ def season_detail(request):
     except (EmptyPage, InvalidPage):
         movies = paginator.page(paginator.num_pages)
             
-    return render_to_response('season_detail.html', {'flix': flix})
+    return render_to_response('season_list.html', {'flix': movies})
+
+def season_detail(request):
+    """NOT DONE"""
+    per_page = 10
+    
+    flix = []
+    if 'series_id' in request.GET:
+        series_id = request.GET['series_id']
+        season_id = request.GET.get('season_id')
+        link_base = '%sseries/%s/seasons/%s' % (ID_BASE, series_id, season_id)
+        data = NFClient().catalog.getTitle("%s%s" % (link_base, series_id))
+        disc = NetflixDisc(data['catalog_title'],NFClient())
+        seas = disc.getInfo('seasons')
+    
+        seasons = seas.get('catalog_titles', {}).get('catalog_title', [])
+        for season in seasons:
+            movie = Movie(season)
+            season_disc = NetflixDisc(season,NFClient())
+            #eps = season_disc.getInfo('episodes')
+            season_discs = season_disc.getInfo('discs')['catalog_titles']['catalog_title']
+            #movie.process_episodes(eps)
+            movie.process_season_discs(season_discs)
+            flix.append(movie)
+    for flik in flix:
+        print flik
+            
+    paginator = Paginator(flix, per_page)
+    try:
+        page = int(request.GET.get('page',1))
+    except ValueError:
+        page = 1
+    
+    try:
+        movies = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        movies = paginator.page(paginator.num_pages)
+            
+    return render_to_response('season_detail.html', {'flix': movies})
         

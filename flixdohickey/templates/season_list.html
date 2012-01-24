@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+<div id="maincontent">
+{% block "content" %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% block "results" %}
+    {% for movie in flix.object_list %}
+        <div class='movierow'>
+            <span class='boxart'>
+                <a href="/season_detail/?id={{movie.id}}">
+                <img src="{{movie.box_art}}" />
+                </a>
+            </span>
+            <span class='title'>
+            <a href="/season_detail/?id={{movie.id}}">{{movie.title}}</a>
+            </span>
+            <span class='rating'>
+            Rated {{movie.rating}} - Released {{movie.release_year}}
+            <a href="#" class="toggle">API info</a>
+            <div class="debug">
+                {{movie.content}}
+            </div>
+            </span>
+        </div>
+    {% endfor %}
+
+{% endblock %}
+<div class="pagination">
+    <span class="step-links">
+        {% if flix.has_previous %}
+            <a href="?search_term={{search_term}}&page={{flix.previous_page_number}}">Previous</a>
+        {% endif %}
+        <!--<span class="current">-->
+            <!--Page {{flix.number}} of {{flix.paginator.num_pages}}-->
+        <!--</span>-->
+        {% if flix.has_next %}
+            <span>
+                ...
+            </span>
+            <a href="?search_term={{search_term}}&page={{flix.next_page_number}}">But wait, there's more!</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}
