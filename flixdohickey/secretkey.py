@@ -2,6 +2,8 @@
 # encoding: utf-8
 """
 secretkey.py
+
+Solution taken from http://stackoverflow.com/a/4674143
 """
 import os
 import random
